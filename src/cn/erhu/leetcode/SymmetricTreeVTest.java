@@ -9,12 +9,12 @@ import org.junit.Test;
  * Date: 14-10-17
  * Time: 下午3:37
  */
-public class SymmetricTreeTest {
+public class SymmetricTreeVTest {
 
     @Test
     public void nullTest() {
         TreeNode node = new TreeNode(0);
-        SymmetricTree st = new SymmetricTree();
+        SymmetricTreeV1 st = new SymmetricTreeV1();
         org.junit.Assert.assertEquals(st.isSymmetric(node), true);
     }
 
@@ -47,8 +47,11 @@ public class SymmetricTreeTest {
         node_5.left = node_9;
         node_6.right = node_10;
 
-        SymmetricTree st = new SymmetricTree();
+        SymmetricTreeV1 st = new SymmetricTreeV1();
         org.junit.Assert.assertEquals(st.isSymmetric(node), true);
+
+        SymmetricTreeV2 st2 = new SymmetricTreeV2();
+        org.junit.Assert.assertEquals(st2.isSymmetric(node), true);
     }
 
 }

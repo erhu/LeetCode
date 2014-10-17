@@ -7,7 +7,10 @@ package cn.erhu.leetcode;
  * Date: 14-10-17
  * Time: 下午3:26
  */
-class SymmetricTree {
+class SymmetricTreeV1 {
+    /**
+     * 此版本未通过leetCode测试，提示超时。
+     */
     public boolean isSymmetric(TreeNode root) {
         if (root != null) {
             TreeNode left = root.left;
