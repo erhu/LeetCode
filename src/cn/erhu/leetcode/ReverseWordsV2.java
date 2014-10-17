@@ -3,7 +3,7 @@ package cn.erhu.leetcode;
 import org.junit.Test;
 
 /**
- * #本文件的功能说明#
+ * 将字符串的单词位置反转
  * <p/>
  * User: hujunjie
  * Date: 14-10-15
