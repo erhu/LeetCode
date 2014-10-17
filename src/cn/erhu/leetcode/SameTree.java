@@ -7,7 +7,7 @@ package cn.erhu.leetcode;
  * Date: 14-10-16
  * Time: 下午5:17
  */
-public class SameTree {
+class SameTree {
     public boolean isSameTree(TreeNode p, TreeNode q) {
         // 两树都为空
         if (p == null && q == null) {
@@ -24,12 +24,3 @@ public class SameTree {
     }
 }
 
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    TreeNode(int x) {
-        this.val = x;
-    }
-}

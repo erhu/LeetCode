@@ -9,7 +9,7 @@ import org.junit.Test;
  * Date: 14-10-15
  * Time: 上午10:46
  */
-public class ReverseWords {
+class ReverseWords {
 
     @Test
     public void test() {
