@@ -7,12 +7,12 @@ package cn.erhu.leetcode;
  * Date: 14-10-17
  * Time: 下午3:28
  */
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
+public class TreeNode {
+    public int val;
+    public TreeNode left;
+    public TreeNode right;
 
-    TreeNode(int x) {
+    public TreeNode(int x) {
         this.val = x;
     }
 }

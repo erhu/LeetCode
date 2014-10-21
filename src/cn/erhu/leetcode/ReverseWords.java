@@ -9,7 +9,7 @@ import org.junit.Test;
  * Date: 14-10-15
  * Time: 上午10:46
  */
-class ReverseWords {
+public class ReverseWords {
 
     @Test
     public void test() {
@@ -50,7 +50,7 @@ class ReverseWords {
         return "";
     }
 
-    void _reverse(char[] _char_arr) {
+    public void _reverse(char[] _char_arr) {
         _reverse(_char_arr, 0, _char_arr.length - 1);
     }
 

@@ -15,8 +15,8 @@ package cn.erhu.leetcode;
  * Date: 14-10-16
  * Time: 上午8:20
  */
-class ValidNumber {
-    boolean isNumber(String s) {
+public class ValidNumber {
+    public boolean isNumber(String s) {
         if (s != null && !s.trim().equals("")) {
             s = s.trim();
 

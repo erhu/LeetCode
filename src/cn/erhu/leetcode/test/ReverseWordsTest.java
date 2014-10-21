@@ -1,5 +1,6 @@
-package cn.erhu.leetcode;
+package cn.erhu.leetcode.test;
 
+import cn.erhu.leetcode.ReverseWords;
 import org.junit.Test;
 
 /**
@@ -9,7 +10,7 @@ import org.junit.Test;
  * Date: 14-10-15
  * Time: 下午5:00
  */
-class ReverseWordsText {
+class ReverseWordsTest {
 
     @Test
     public void _reverseTest() {

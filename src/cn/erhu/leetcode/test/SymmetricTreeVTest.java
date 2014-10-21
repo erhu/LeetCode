@@ -1,5 +1,8 @@
-package cn.erhu.leetcode;
+package cn.erhu.leetcode.test;
 
+import cn.erhu.leetcode.SymmetricTreeV1;
+import cn.erhu.leetcode.SymmetricTreeV2;
+import cn.erhu.leetcode.TreeNode;
 import org.junit.Test;
 
 /**

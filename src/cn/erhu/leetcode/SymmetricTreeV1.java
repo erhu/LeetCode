@@ -7,7 +7,7 @@ package cn.erhu.leetcode;
  * Date: 14-10-17
  * Time: 下午3:26
  */
-class SymmetricTreeV1 {
+public class SymmetricTreeV1 {
     /**
      * 此版本未通过leetCode测试，提示超时。
      */

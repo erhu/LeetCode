@@ -1,5 +1,6 @@
-package cn.erhu.leetcode;
+package cn.erhu.leetcode.test;
 
+import cn.erhu.leetcode.ValidNumber;
 import org.junit.Test;
 
 /**

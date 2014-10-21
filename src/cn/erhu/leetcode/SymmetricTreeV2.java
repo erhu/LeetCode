@@ -7,12 +7,12 @@ package cn.erhu.leetcode;
  * Date: 14-10-17
  * Time: 下午3:26
  */
-class SymmetricTreeV2 {
+public class SymmetricTreeV2 {
     public boolean isSymmetric(TreeNode root) {
         return root == null || travel(root.left, root.right);
     }
 
-    boolean travel(TreeNode left, TreeNode right) {
+    public boolean travel(TreeNode left, TreeNode right) {
         // 两棵树均为空 ＝> true
         if (left == null && right == null) {
             return true;
