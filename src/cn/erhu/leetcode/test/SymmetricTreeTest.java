@@ -12,7 +12,7 @@ import org.junit.Test;
  * Date: 14-10-17
  * Time: 下午3:37
  */
-public class SymmetricTreeVTest {
+public class SymmetricTreeTest {
 
     @Test
     public void nullTest() {
