@@ -13,23 +13,52 @@ import org.junit.Test;
 public class LRUCacheTestV2 {
     @Test
     public void test() {
+        // 3,[set(1,1),set(2,2),set(3,3),set(4,4),get(4),get(3),get(2),get(1),set(5,5),get(1),get(2),get(3),get(4),get(5)]
+        LRUCacheV2 cache = new LRUCacheV2(3);
+        cache.set(1, 1);
+        cache.set(2, 2);
+        cache.set(3, 3);
+        cache.set(4, 4);
+        System.out.print(cache.get(4) + ", ");
+        System.out.print(cache.get(3) + ", ");
+        System.out.print(cache.get(2) + ", ");
+        System.out.print(cache.get(1) + ", ");
+        cache.set(5, 5);
+        System.out.print(cache.get(1) + ", ");
+        System.out.print(cache.get(2) + ", ");
+        System.out.print(cache.get(3) + ", ");
+        System.out.print(cache.get(4) + ", ");
+        System.out.print(cache.get(5) + ", ");
+        // Output:	[4,3,2,-1,-1,2,3,4,5]
+        // Expected:[4,3,2,-1,-1,2,3,-1,5]
+
 /*
-        // 1,[set(2,1),get(2),set(3,2),get(2),get(3)]
-        LRUCache cache = new LRUCache(1);
+        // 2,[set(2,1),set(1,1),set(2,3),set(4,1),get(1),get(2)]
+        // Output: [1,-1]
+        // Expected: [-1,3]
+        //===============
+        LRUCacheV2 cache = new LRUCacheV2(2);
         cache.set(2, 1);
+        cache.set(1, 1);
+        cache.set(2, 3);
+        cache.set(4, 1);
+        System.out.println(cache.get(1));
         System.out.println(cache.get(2));
-        cache.set(3, 2);
-        System.out.println(cache.get(2));
-        System.out.println(cache.get(3));
+        System.out.println("----------------");
 */
-        LRUCacheV2.HashMapX map = new LRUCacheV2.HashMapX(12);
-        map.put(3, 4);
-        map.put(5, 6);
-        map.put(7, 8);
-        map.put(9, 10);
-        System.out.println(map.toString());
-        System.out.println(map.get(4));
-        System.out.println(map.get(5));
-        System.out.println(map.get(9));
+
+
+        // 2,[set(2,1),set(1,1),get(2),set(4,1),get(1),get(2)]
+/*
+        cache = new LRUCacheV2(2);
+        cache.set(2, 1);
+        cache.set(1, 1);
+        System.out.println(cache.get(2));
+        cache.set(4, 1);
+        System.out.println(cache.get(1));
+        System.out.println(cache.get(2));
+*/
+        // ok:   1, -1, 1
+
     }
 }
