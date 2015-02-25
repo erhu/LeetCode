@@ -1,59 +1,220 @@
 package cn.erhu.leetcode;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
+/**
+ * Design and implement a data structure for Least Recently Used (LRU) cache.
+ * It should support the following operations: get and set.
+ * <p/>
+ * get(key) - Get the value (will always be positive) of the key if the key exists in the cache, otherwise return -1.
+ * <p/>
+ * set(key, value) - Set or insert the value if the key is not already present.
+ * When the cache reached its capacity, it should invalidate the least recently used item before inserting a new item.
+ */
 public class LRUCache {
 
-    private static final float hashTableLoadFactor = 0.75f;
+    // bucket
+    Node[] buckets;
+    int size;
+    int capacity;
+    Node head;
+    Node tail;
 
-    private LinkedHashMap<Integer, Integer> map;
-    private int cacheSize;
-
-    /**
-     * Creates a new LRU cache.
-     *
-     * @param cacheSize the maximum number of entries that will be kept in this cache.
-     */
-    public LRUCache(int cacheSize) {
-        this.cacheSize = cacheSize;
-        int hashTableCapacity = (int) Math.ceil(cacheSize / hashTableLoadFactor) + 1;
-        map = new LinkedHashMap<Integer, Integer>(hashTableCapacity, hashTableLoadFactor, true) {
-            // (an anonymous inner class)
-            private static final long serialVersionUID = 1;
-
-            @Override
-            protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
-                return size() > LRUCache.this.cacheSize;
-            }
-        };
-    }
-
-    /**
-     * Retrieves an entry from the cache.<br>
-     * The retrieved entry becomes the MRU (most recently used) entry.
-     *
-     * @param key the key whose associated value is to be returned.
-     * @return the value associated to this key, or null if no value with this key exists in the cache.
-     */
-    public synchronized Integer get(Integer key) {
-        Integer v = map.get(key);
-        if (v == null) {
-            return -1;
+    public LRUCache(int init_capacity) {
+        this.capacity = init_capacity;
+        // Find a power of 2 >= init_capacity
+        int capacity = 1;
+        while (capacity < init_capacity) {
+            capacity <<= 1;
         }
-        return v;
+
+        buckets = new Node[capacity];
+        head = new Node(-1, -1, -1, null);
+        tail = new Node(-1, -1, -1, null);
+    }
+
+    public int get(int key) {
+        Node e = getNode(key);
+        moveNode2Head(e);
+        return null == e ? -1 : e.val;
+    }
+
+    private Node getNode(int key) {
+        int hash = hash(key);
+        for (Node e = buckets[indexFor(hash, buckets.length)]; e != null; e = e.next) {
+            if (e.hash == hash && (e.key == key)) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    public int set(int key, int val) {
+        int hash = hash(key);
+        int i = indexFor(hash, buckets.length);
+
+        // found key in bucket, set new value
+        for (Node e = buckets[i]; e != null; e = e.next) {
+            if (e.hash == hash && e.key == key) {
+                int old = e.val;
+                e.val = val;
+                moveNode2Head(e);
+                return old;
+            }
+        }
+        // not found, add a new node
+        addNode(hash, key, val, i);
+        return -1;
+    }
+
+    private void addNode(int hash, int key, int val, int bucket_idx) {
+        // The first node 'e' of the bucket
+        Node e = buckets[bucket_idx];
+        // add the new node before 'e'
+        buckets[bucket_idx] = new Node(hash, key, val, e);
+
+        // set head pointer to the new node
+        moveNode2Head(buckets[bucket_idx]);
+
+        // init tail
+        if (tail.before == null) {
+            tail.before = buckets[bucket_idx];
+            buckets[bucket_idx].after = tail;
+        }
+        if (size == capacity) {
+            delLastNode();
+            size--;
+        }
+        size++;
     }
 
     /**
-     * Adds an entry to this cache.
-     * The new entry becomes the MRU (most recently used) entry.
-     * If an entry with the specified key already exists in the cache, it is replaced by the new entry.
-     * If the cache is full, the LRU (least recently used) entry is removed from the cache.
+     * Make head point to e
      *
-     * @param key   the key with which the specified value is to be associated.
-     * @param value a value to be associated with the specified key.
+     * @param e
      */
-    public synchronized void set(Integer key, Integer value) {
-        map.put(key, value);
+    private void moveNode2Head(Node e) {
+        if (e == null) {
+            return;
+        }
+        delLinksOfNode(e);
+
+        e.before = head;
+        e.after = head.after;
+        if (head.after != null) {
+            head.after.before = e;
+        }
+        head.after = e;
+    }
+
+    /**
+     * Remove the links(before after) of node
+     *
+     * @param e node
+     */
+    private void delLinksOfNode(Node e) {
+        if (e == null) {
+            return;
+        }
+        Node before = e.before;
+        Node after = e.after;
+        if (before != null) {
+            before.after = after;
+        }
+        if (after != null) {
+            after.before = before;
+        }
+        e.after = null;
+        e.before = null;
+    }
+
+    /**
+     * Del the eldest node
+     */
+    private void delLastNode() {
+        // del the links(before, after) of node before tail
+        if (tail.before != null) {
+            Node last = tail.before;
+            tail.before = last.before;
+            if (last.before != null) {
+                last.before.after = tail;
+            }
+            last.after = null;
+            last.before = null;
+
+            delNodeFromBuckets(last);
+        }
+    }
+
+    /**
+     * Del node from bucket (include link and value)
+     *
+     * @param node
+     */
+    private void delNodeFromBuckets(Node node) {
+        if (node == null) {
+            return;
+        }
+        int h = hash(node.key);
+        int bucket_idx = indexFor(h, buckets.length);
+        Node pointer = buckets[bucket_idx];
+        Node pre = pointer;
+
+        while (pointer != null) {
+            if (pointer.key == node.key && h == hash(pointer.key)) {
+                if (pre == pointer) {
+                    // the node to del is the first node of a bucket
+                    buckets[bucket_idx] = pointer.next;
+                    break;
+                } else {
+                    // del pointer
+                    pre.next = pointer.next;
+                    break;
+                }
+            }
+            pre = pointer;
+            pointer = pointer.next;
+        }
+    }
+
+    private int indexFor(int h, int l) {
+        return h & (l - 1);
+    }
+
+    private int hash(Object k) {
+        int h = 0;
+        h ^= k.hashCode();
+        h ^= (h >>> 20) ^ (h >>> 12);
+        return h ^ (h >>> 7) ^ (h >>> 4);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Node e : buckets) {
+            if (e == null) {
+                continue;
+            }
+            for (; e.next != null; e = e.next) {
+                sb.append("(").append(e.key).append(",").append(e.val).append(")\n");
+            }
+        }
+        return sb.toString();
+    }
+
+    private static class Node {
+        final int key;
+        int val;
+        // link for one bucket
+        Node next;
+        // link for all node
+        Node before;
+        Node after;
+        int hash;
+
+        Node(int _hash, int _key, int _value, Node _next) {
+            val = _value;
+            next = _next;
+            key = _key;
+            hash = _hash;
+        }
     }
 }
