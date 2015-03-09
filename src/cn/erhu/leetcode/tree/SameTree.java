@@ -1,4 +1,4 @@
-package cn.erhu.leetcode;
+package cn.erhu.leetcode.tree;
 
 /**
  * 判断两棵二叉树是否相等

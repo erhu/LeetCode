@@ -1,7 +1,7 @@
 package cn.erhu.leetcode.test;
 
-import cn.erhu.leetcode.MaxDepthOfBinaryTree;
-import cn.erhu.leetcode.TreeNode;
+import cn.erhu.leetcode.tree.MaxDepthOfBinaryTree;
+import cn.erhu.leetcode.tree.TreeNode;
 import org.junit.Test;
 
 /**

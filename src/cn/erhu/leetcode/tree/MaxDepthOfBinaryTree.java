@@ -1,4 +1,4 @@
-package cn.erhu.leetcode;
+package cn.erhu.leetcode.tree;
 
 /**
  * Given a binary tree, find its maximum depth.
