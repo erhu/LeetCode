@@ -19,12 +19,19 @@ import org.junit.Test;
  */
 public class RotateArray {
 
+    /**
+     * 解法一
+     * 空间复杂度: 2N
+     * 时间复杂度: N
+     */
     public void rotate(int[] num, int k) {
+        // 将原数组拷贝一份, 得到数组 num_copy
         int[] num_copy = new int[num.length];
         System.arraycopy(num, 0, num_copy, 0, num.length);
 
-//         System.out.println(Arrays.toString(num_copy));
-
+        // 从 num_copy 中向 num 中拷贝元素,
+        // 将 num_copy 的位置为 i 元素, 拷贝到 num 中的位置为 (i + k)的元素
+        // 如果拷贝时在 num 中越界, 则对 (i + k) 取模.
         int len = num_copy.length;
         for (int i = 0; i < len; i++) {
             int index = i + k;
